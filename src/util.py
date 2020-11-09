@@ -10,10 +10,11 @@ def support_f_1(np_img_window):
     np_img_window[even_indices] += 1
     np_img_window[np.logical_not(even_indices)] -= 1
     return np_img_window
-f_1 = lambda x: support_f_1(x)
-f_0 = lambda x: x
-f_neg1 = lambda x: support_f_1(x+1)-1
+
 def flipping_operation(np_img_window, np_mask):
+    f_1 = lambda x: support_f_1(x)
+    f_0 = lambda x: x
+    f_neg1 = lambda x: support_f_1(x+1)-1
     np_result = np.empty(np_img_window.shape)
     dict_flip = {-1:f_neg1, 0:f_0, 1:f_1}
     for i in [-1, 0, 1]:
@@ -25,7 +26,7 @@ def calculate_count_groups(np_img, np_mask):
     count_reg, count_sing = 0, 0
     for ih in range(0, np_img.shape[0], np_mask.shape[0]):
         for iw in range(0, np_img.shape[1], np_mask.shape[1]):
-            np_img_window = np_img[ih: ih+np_mask.shape[0], iw: iw+np_mask.shape[1]]
+            np_img_window = np_img[ih: ih+np_mask.shape[0], iw: iw+np_mask.shape[1]] # this is group
             flipped_output = flipping_operation(np_img_window, np_mask)
             # print("Image window")
             # print(np_img_window)
