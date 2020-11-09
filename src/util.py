@@ -27,10 +27,10 @@ def calculate_count_groups(np_img, np_mask):
         for iw in range(0, np_img.shape[1], np_mask.shape[1]):
             np_img_window = np_img[ih: ih+np_mask.shape[0], iw: iw+np_mask.shape[1]]
             flipped_output = flipping_operation(np_img_window, np_mask)
-            print("Image window")
-            print(np_img_window)
-            print("Flipped version")
-            print(flipped_output)
+            # print("Image window")
+            # print(np_img_window)
+            # print("Flipped version")
+            # print(flipped_output)
             
             discrimination_img_window = discrimination_function(np_img_window)
             discrimination_flipped_output = discrimination_function(flipped_output)
