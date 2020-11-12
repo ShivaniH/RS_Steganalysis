@@ -26,7 +26,7 @@ def support_f_1(np_img_window):
     np_img_window = np.copy(np_img_window)
     even_values = np_img_window % 2 == 0
     np_img_window[even_values] += 1
-    np_img_window[np.logical_not(even_values)] -= 1
+    np_img_window[np.logical_not(even_values)] -= 1 
     return np_img_window
 
 
