@@ -48,8 +48,8 @@ def calculate_count_groups(np_img, np_mask):
             np_img_window = np_img[ih: ih+np_mask.shape[0], iw: iw+np_mask.shape[1]]    # this is one group
             
             flipped_output = flipping_operation(np_img_window, np_mask)
-            comparison = flipped_output == np_img_window 
-            equal_arrays = comparison.all() 
+            # comparison = flipped_output == np_img_window 
+            # equal_arrays = comparison.all() 
 #             print(equal_arrays)
             discrimination_img_window = discrimination_function(np_img_window)
             discrimination_flipped_output = discrimination_function(flipped_output)
