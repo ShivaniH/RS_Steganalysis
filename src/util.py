@@ -1,6 +1,7 @@
 import numpy as np
 import random
 import string
+import copy
 
 # research paper discrimination function
 def discrimination_function(np_img_window):
@@ -45,8 +46,11 @@ def calculate_count_groups(np_img, np_mask):
     for ih in range(0, np_img.shape[0], np_mask.shape[0]):
         for iw in range(0, np_img.shape[1], np_mask.shape[1]):
             np_img_window = np_img[ih: ih+np_mask.shape[0], iw: iw+np_mask.shape[1]]    # this is one group
-            flipped_output = flipping_operation(np_img_window, np_mask)
             
+            flipped_output = flipping_operation(np_img_window, np_mask)
+            comparison = flipped_output == np_img_window 
+            equal_arrays = comparison.all() 
+#             print(equal_arrays)
             discrimination_img_window = discrimination_function(np_img_window)
             discrimination_flipped_output = discrimination_function(flipped_output)
 
