@@ -72,3 +72,8 @@ def randomString(n):
     return ''.join(random.choice(chars) for _ in range(n))
 
 
+def simpleLSBFlipper(image, n):
+    flattenedImg = image.flatten()
+    print(image.dtype)
+    flattenedImg[0:n] = np.bitwise_xor(flattenedImg[0:n], np.ones((1, n)))       # 0 XOR 1 = 1 ; 1 XOR 1 = 0
+    return flattenedImg.reshape(image.shape)
