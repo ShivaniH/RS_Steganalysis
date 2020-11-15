@@ -3,26 +3,63 @@ import random
 import string
 import copy
 
+mask = np.array([[0, 1, 0]])
+
 # research paper discrimination function
 
 def discrimination_function(np_img_window):
-    if len(np_img_window.shape) == 3: # for RGB
-        np_img_window_0, np_img_window_1, np_img_window_2 = np_img_window[:,:,0].flatten(), np_img_window[:,:,1].flatten(), np_img_window[:,:,2].flatten()
+    if len(np_img_window.shape) == 3:               # for RGB
 
-        channelSum0 = np.sum(np.abs(np_img_window_0[:-1] - np_img_window_0[1:])) 
-        channelSum1 = np.sum(np.abs(np_img_window_1[:-1] - np_img_window_1[1:]))
-        channelSum2 = np.sum(np.abs(np_img_window_2[:-1] - np_img_window_2[1:]))
+        # np_img_window_0, np_img_window_1, np_img_window_2 = np_img_window[:,:,0].flatten(), np_img_window[:,:,1].flatten(), np_img_window[:,:,2].flatten()
 
-        return (channelSum0 + channelSum1 + channelSum2)
+        # channelSum0 = np.sum(np.abs(np_img_window_0[:-1] - np_img_window_0[1:])) 
+        # channelSum1 = np.sum(np.abs(np_img_window_1[:-1] - np_img_window_1[1:]))
+        # channelSum2 = np.sum(np.abs(np_img_window_2[:-1] - np_img_window_2[1:]))
+
+        # return (channelSum0 + channelSum1 + channelSum2)
+
+        red_sum = 0
+        blue_sum = 0
+        green_sum = 0
+
+        np_img_window_0 = np_img_window[:, :, 0]
+        np_img_window_1 = np_img_window[:, :, 1]
+        np_img_window_2 = np_img_window[:, :, 2]
+
+        for i in range(np_img_window_0.shape[0]):
+            for j in range(1, np_img_window_0.shape[1]):
+                red_sum += abs(np_img_window_0[i, j] - np_img_window_0[i, j-1])
+        
+        for j in range(np_img_window_0.shape[1]):
+            for i in range(1, np_img_window_0.shape[0]):
+                red_sum += abs(np_img_window_0[i, j] - np_img_window_0[i-1, j])
+
+        for i in range(np_img_window_1.shape[0]):
+            for j in range(1, np_img_window_1.shape[1]):
+                blue_sum += abs(np_img_window_1[i, j] - np_img_window_1[i, j-1])
+        
+        for j in range(np_img_window_1.shape[1]):
+            for i in range(1, np_img_window_1.shape[0]):
+                blue_sum += abs(np_img_window_1[i, j] - np_img_window_1[i-1, j])
+
+        for i in range(np_img_window_2.shape[0]):
+            for j in range(1, np_img_window_2.shape[1]):
+                green_sum += abs(np_img_window_2[i, j] - np_img_window_2[i, j-1])
+        
+        for j in range(np_img_window_2.shape[1]):
+            for i in range(1, np_img_window_2.shape[0]):
+                green_sum += abs(np_img_window_2[i, j] - np_img_window_2[i-1, j])
+
+        sum = red_sum + blue_sum + green_sum
+
+        return sum
     
-    elif len(np_img_window.shape) == 2: # for grayscale
+    elif len(np_img_window.shape) == 2:                 # for grayscale
         np_img_window = np_img_window.flatten()
         return np.sum(np.abs(np_img_window[:-1] - np_img_window[1:]))
     
     else:
-        raise Exception("Error: Invlaid shape of image in discrimination_function")
-    
-    # Extra subtractions across channels -- Was that a problem?
+        raise Exception("Error: Invlaid shape of image window in discrimination_function")
 
 
 def support_f_1(np_img_window):
