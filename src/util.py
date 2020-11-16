@@ -165,3 +165,6 @@ def RS_quadratic_solver(half_LSBs_flipped, all_LSBs_flipped):
     coefficients = [a, b, c]
 
     return np.roots(coefficients)
+
+def test():
+    pass
