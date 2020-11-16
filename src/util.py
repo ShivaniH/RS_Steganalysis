@@ -153,3 +153,53 @@ def rs_helper(channels: list, mask: np.array, flip: bool = False, percent: int =
         s_neg_m += temp_2
 
     return np.array([rm, sm, r_neg_m, s_neg_m]) / len(channels)
+
+########################################################################
+def display_multiple_img(images, titles, rows = 4, cols=2, is_BW = False, w = 15, h = 15):
+    figure, ax = plt.subplots(nrows=rows,ncols=cols, figsize= (w,h))
+    for ind,img in enumerate(images):
+        if is_BW: ax.ravel()[ind].imshow(img, cmap = 'gray')
+        else: ax.ravel()[ind].imshow(img)
+        ax.ravel()[ind].set_axis_off()
+        ax.ravel()[ind].set_title(titles[ind])
+    plt.tight_layout()
+    plt.show()
+
+# padding = (F - 1) / 2
+def do_padding(img, K):
+    # Does padding to ensure same image size
+    # after applying filtering operation
+    pad_needed = K - 1
+    mod_img_size = (img.shape[0] + pad_needed,
+     img.shape[1] + pad_needed)
+    mod_img = np.zeros(mod_img_size)
+    left = pad_needed // 2; right = left + img.shape[0]
+    upper = pad_needed // 2; lower = upper + img.shape[1]
+    mod_img[left : right, upper : lower] = img
+    return mod_img
+
+def low_pass_filter(img, K):
+    mod_img = np.zeros(img.shape)
+    img = do_padding(img, K)
+    filter = 1/(K**2) * np.ones((K,K))
+
+    for i in range(0, mod_img.shape[0]):
+        for j in range(0, mod_img.shape[1]):
+            mod_img[i,j] =  np.sum(img[i:i+K, j:j+K] * filter)
+    return mod_img
+
+# Optimized method
+# Summed Area Tabel
+
+def opt_low_pass_filter(img, K):
+    mod_img = np.zeros(img.shape)
+    img = do_padding(img, K)
+    sat = np.cumsum(img, axis = 0)
+    sat = np.cumsum(sat, axis = 1)
+    man_arr = np.zeros((sat.shape[0] + 1, sat.shape[1] + 1))
+    man_arr[1:, 1:] = sat
+    for i in range(1, mod_img.shape[0]+1):
+        for j in range(1, mod_img.shape[1]+1):
+            mod_img[i-1,j-1] = man_arr[i+K-1, j+K-1] + man_arr[i-1, j-1] \
+                            - man_arr[i-1, j+K-1] - man_arr[i+K-1, j-1]
+    return mod_img / (K**2)
