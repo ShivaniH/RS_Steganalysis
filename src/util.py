@@ -165,3 +165,18 @@ def RS_quadratic_solver(half_LSBs_flipped, all_LSBs_flipped):
     coefficients = [a, b, c]
 
     return np.roots(coefficients)
+
+def rs_helper(channels, mask, flip = False, percent = 0):
+    rm, sm, r_neg_m, s_neg_m = 0, 0, 0, 0
+    for channel in channels:
+        if flip:
+            channel = scattered_lsb_flipping(channel, percent)
+        temp_1, temp_2 = calculate_count_groups(channel, mask)
+        rm += temp_1
+        sm += temp_2
+
+        temp_1, temp_2 = calculate_count_groups(channel, -mask)
+        r_neg_m += temp_1
+        s_neg_m += temp_2
+
+    return np.array([rm, sm, r_neg_m, s_neg_m]) / len(channels)
