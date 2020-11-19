@@ -6,7 +6,7 @@ pip install -r requirements.txt
 
 ### Run instructions
 
-The utility functions are written in ```src/util.py``` and the required functions are imported into the ```src/Project.ipynb```. Executing the ```src/Project.ipynb``` cell-by-cell shall the fetch the results.
+The utility functions are written in ```src/util.py``` and the required functions are imported into the ```src/Project.ipynb```. Executing the ```src/Project.ipynb``` cell-by-cell shall fetch the results.
 
 ### Input Images
 
