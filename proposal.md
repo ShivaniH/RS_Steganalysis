@@ -21,7 +21,7 @@ Our project is about steganalysis on colour and grayscale images, that is, findi
 ## Problem Definition
 The technique described in the paper, called RS Steganalysis, uses a measure called as lossless capacity for embedding data in the LSBs, in order to detect hidden messages. This technique involves developing an RS-diagram for an input image, where R denotes regular pixel groups and S denotes singular pixel groups. An example of an RS diagram (provided in the paper) is as below:
 
-![RS diagram](https://github.com/Digital-Image-Processing-IIITH/project-photons/blob/main/RSdiagram.PNG)
+![RS diagram](./documents/RSdiagram.PNG)
 
 The length of the hidden message, say p, is estimated using the formula below: <br><br>
 <img src=
